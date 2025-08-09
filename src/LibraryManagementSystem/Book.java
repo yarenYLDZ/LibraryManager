@@ -1,4 +1,4 @@
-package LibraryManagerSystem;
+package LibraryManagementSystem;
 
 public class Book {
 
