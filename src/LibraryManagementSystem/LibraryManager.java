@@ -52,7 +52,7 @@ public class LibraryManager {
     }
 
 
-    // Search for books containing the given title (case insensitive)
+    // Search for books containing the given title
     // Returns a list of books that match the search query
     public List<Book> searchBookByTitle(String title){
         List<Book> foundBooks=new ArrayList<>();
