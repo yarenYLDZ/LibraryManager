@@ -2,28 +2,27 @@ package LibraryManagerSystem;
 
 public class Book {
 
-    private static int idCounter = 1; // Counter for the unique ID of each book
-    private String name;
+    private String title;
     private String author;
-    private boolean isAvailable; //Whether book is available or not
+    private boolean isAvailable; // This keeps track if the book is available or not
     private String genre;
     private int publishYear;
-    private int isbn; // Unique book identifier used for borrowing and returning books
+    private int isbn; // Uniqe
 
 
-    public Book(String name, String author, int isbn, String genre, int publishYear) {
-
-        this.name = name;
+    // Constructor to initialize a new book with given details and set it as available initially
+    public Book(String title, String author, int isbn, String genre, int publishYear) {
+        this.title = title;
         this.author = author;
         this.isbn = isbn;
         this.genre = genre;
         this.publishYear = publishYear;
-        this.isAvailable = true; // By default, the book is assumed not to be borrowed initially
+        this.isAvailable = true; // The book is available at the beginning
     }
 
-    // Since the variables are private, getter and setter methods are provided for external access
-    public String getName() {
-        return name;
+    // Getters
+    public String getTitle() {
+        return title;
     }
 
     public String getAuthor() {
@@ -46,13 +45,33 @@ public class Book {
         return isAvailable;
     }
 
-    public void setAvailable(boolean available) {
-        isAvailable = available;
+    // This method lets the user borrow a book by ISBN.
+    // It finds the book and calls the book's borrow() method.
+    // It shows messages depending on success or failure.
+    public boolean borrow() {
+        if (isAvailable) {
+            isAvailable = false;
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    // This method tries to return the book.
+    // It changes the book status if it is not available.
+    // Returns true if successful, false if the book is already available.
+    public boolean returnBook() {
+        if (!isAvailable) {
+            isAvailable = true;
+            return true; // Successful return
+        } else {
+            return false; // The book is already available, cannot be returned again
+        }
     }
 
     @Override
     public String toString() {
-        return "Title: " + name + "\n" +
+        return "Title: " + title + "\n" +
                 "Author: " + author + "\n" +
                 "ISBN: " + isbn + "\n" +
                 "Status: " + (isAvailable ? "Available" : "Not Available") + "\n" +
@@ -60,5 +79,4 @@ public class Book {
                 "Publish Year: " + publishYear + "\n" +
                 "------------------------------";
     }
-
 }

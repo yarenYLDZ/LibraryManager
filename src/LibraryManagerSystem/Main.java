@@ -25,33 +25,55 @@ public class Main {
 
             switch (choice) {
                 case "1":
-                    // Section where book information is requested from the user
+                    // Prompt user to enter details for a new book
                     System.out.println("Please enter the details of the book you want to add in order :");
                     System.out.print("Book title: ");
                     String name = scanner.nextLine();
                     System.out.print("Author name: ");
                     String author = scanner.nextLine();
-                    System.out.print("ISBN: ");
-                    int isbn = Integer.parseInt(scanner.nextLine());
+
+                    // Validate numeric ISBN input
+                    int isbn;
+                    while (true) {
+                        try {
+                            System.out.print("ISBN: ");
+                            isbn = Integer.parseInt(scanner.nextLine());
+                            break;
+                        } catch (NumberFormatException e) {
+                            System.out.println("Invalid ISBN! Please enter a numeric value.");
+                        }
+                    }
+
                     System.out.print("Genre: ");
                     String genre = scanner.nextLine();
-                    System.out.print("Publish year: ");
-                    int publishYear = Integer.parseInt(scanner.nextLine());
 
+                    // Validate numeric publish year input
+                    int publishYear;
+                    while (true) {
+                        try {
+                            System.out.print("Publish year: ");
+                            publishYear = Integer.parseInt(scanner.nextLine());
+                            break;
+                        } catch (NumberFormatException e) {
+                            System.out.println("Invalid year! Please enter a numeric value.");
+                        }
+                    }
+
+                    // Create new Book object and add it to the library
                     Book newBook = new Book(name, author, isbn, genre, publishYear);
-                    library.addBook(newBook); // Call method to add a new book to the library
+                    library.addBook(newBook);
                     break;
 
                 case "2":
-                    // Call method to list all books in the library
+                    // List all books in the library
                     library.listBooks();
                     break;
 
                 case "3":
-
+                    // Search for books by title
                     System.out.print("Book title to search: ");
                     String searchTitle = scanner.nextLine();
-                    List<Book> foundBooks = library.searchBookByTitle(searchTitle); // Call method to search for books by title
+                    List<Book> foundBooks = library.searchBookByTitle(searchTitle);
                     if (foundBooks.isEmpty()) {
                         System.out.println("The book you searched for was not found.");
                     } else {
@@ -63,25 +85,43 @@ public class Main {
                     break;
 
                 case "4":
-
-                    System.out.print("Please enter the ISBN number of the book you want to borrow : ");
-                    int borrowIsbn = Integer.parseInt(scanner.nextLine());
-                    library.borrowBook(borrowIsbn); // Call method to borrow a book by ISBN
+                    // Prompt user to enter ISBN for borrowing a book with validation
+                    int borrowIsbn;
+                    while (true) {
+                        try {
+                            System.out.print("Please enter the ISBN number of the book you want to borrow : ");
+                            borrowIsbn = Integer.parseInt(scanner.nextLine());
+                            break;
+                        } catch (NumberFormatException e) {
+                            System.out.println("Invalid ISBN! Please enter a numeric value.");
+                        }
+                    }
+                    library.borrowBook(borrowIsbn);
                     break;
 
                 case "5":
-
-                    System.out.print("Please enter the ISBN number of the book you want to return : ");
-                    int returnIsbn = Integer.parseInt(scanner.nextLine());
-                    library.returnBook(returnIsbn); // Call method to return a book by ISBN
+                    // Prompt user to enter ISBN for returning a book with validation
+                    int returnIsbn;
+                    while (true) {
+                        try {
+                            System.out.print("Please enter the ISBN number of the book you want to return : ");
+                            returnIsbn = Integer.parseInt(scanner.nextLine());
+                            break;
+                        } catch (NumberFormatException e) {
+                            System.out.println("Invalid ISBN! Please enter a numeric value.");
+                        }
+                    }
+                    library.returnBook(returnIsbn);
                     break;
 
                 case "6":
+                    // Exit the program
                     System.out.println("Exiting the program. Have a nice day! ");
                     exit = true;
                     break;
 
                 default:
+                    // Handle invalid menu options
                     System.out.println("Invalid choice. Please try again. ");
             }
         }
