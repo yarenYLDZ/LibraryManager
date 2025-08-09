@@ -6,26 +6,26 @@ import java.util.List;
 
 public class LibraryManager {
 
-    private final List<Book> books; //kitaplari saklamak icin liste
+    private final List<Book> books; // List to store books
 
     public LibraryManager(){
         books = new ArrayList<>();
 
     }
 
-    // Kitap ekleme metodu
+    // Method to add a book
     public void addBook(Book book){
         books.add(book);
-        System.out.println("ISLEM SONUCU : Kitap başarıyla eklendi");
+        System.out.println("PROCESS RESULT: Book added successfully");
 
     }
 
-    //Kitaplari listeleme metodu
+    // Method to list books
     public void listBooks(){
         if(books.isEmpty()){
-            System.out.println("Kütüphanede listelenecek kitap bulunmamaktadır.");
+            System.out.println("There are no books to list in the library.");
         } else {
-            System.out.println("----Kütüphanedeki Kitaplar----");
+            System.out.println("----BOOKS IN THE LIBRARY----");
             for (Book book: books){
                 System.out.println("Title: " + book.getName());
                 System.out.println("Author: " + book.getAuthor());
@@ -33,13 +33,13 @@ public class LibraryManager {
                 System.out.println("Status: " + (book.isAvailable() ? "Available" : "Not Available"));
                 System.out.println("Genre: " + book.getGenre());
                 System.out.println("Publish Year: " + book.getPublishYear());
-                System.out.println("----------------------");
+                System.out.println("----------------------------");
             }
         }
     }
 
 
-    //Kitaplari isimleri ile arama metodu
+    // Method to search books by their titles
     public List<Book> searchBookByTitle(String title){
         List<Book> foundBooks=new ArrayList<>();
         for(Book book:books){
@@ -52,40 +52,40 @@ public class LibraryManager {
     }
 
 
-    //Kitaplari ISBN numarasi ile odunc alma
+    // Method to borrow books by ISBN number
     public void borrowBook(int isbn) {
         for (Book book : books) {
             if (book.getIsbn() == isbn) {
                 if (book.isAvailable()) {
                     book.setAvailable(false);
-                    System.out.println("Kitap ödünç verildi: \n" + book);
+                    System.out.println("Book borrowed. \n" + book);
                 } else {
-                    System.out.println("Bu kitap zaten ödünç verilmiş: \n" + book);
+                    System.out.println("This book has already been borrowed. \n" + book);
                 }
 
 
-                return; // İşlem tamamlandı, metottan çık
+                return; // Operation completed, exiting the method
             }
         }
-        System.out.println("ISBN numarası ile eşleşen kitap bulunamadı.");
+        System.out.println("No book found matching the ISBN number.\n");
     }
 
 
-    //Kitaplari isbn numarasi ile iade etme
+    // Method to return books by ISBN number
     public void returnBook(int isbn) {
         for (Book book : books) {
             if (book.getIsbn() == isbn) {
                 if (!book.isAvailable()) {
                     book.setAvailable(true);
-                    System.out.println("Kitap iade edildi:\n" + book);
+                    System.out.println("Book returned\n" + book);
                     return;
                 } else {
-                    System.out.println("Bu kitap zaten iade edilmiş:\n" + book);
+                    System.out.println("This book has already been returned\n" + book);
                     return;
                 }
             }
         }
-        System.out.println("ISBN numarasıyla eşleşen kitap bulunamadı.");
+        System.out.println("No book found matching the ISBN number.");
     }
 
 }

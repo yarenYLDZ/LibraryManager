@@ -2,31 +2,26 @@ package LibraryManagerSystem;
 
 public class Book {
 
-    private static int idCounter = 1; // Her kitabin benzersiz id si icin sayac
-    private int id; //kitabin kimligi (benzersiz)
+    private static int idCounter = 1; // Counter for the unique ID of each book
     private String name;
     private String author;
-    private boolean isAvailable; //kitabin odunc verilip verilmeme durumu icin
-    private String genre; // kitap turu
+    private boolean isAvailable; //Whether book is available or not
+    private String genre;
     private int publishYear;
-    private int isbn;
+    private int isbn; // Unique book identifier used for borrowing and returning books
 
 
     public Book(String name, String author, int isbn, String genre, int publishYear) {
-        this.id = idCounter++;
+
         this.name = name;
         this.author = author;
         this.isbn = isbn;
         this.genre = genre;
         this.publishYear = publishYear;
-        this.isAvailable = true; // default olarak ilk basta kitap odunc verilmemistir kabul edlir
+        this.isAvailable = true; // By default, the book is assumed not to be borrowed initially
     }
 
-    // Degiskenler private oldugundan dolayi disardan erisim icin getter ve setter metotlari
-    public int getId() {
-        return id;
-    }
-
+    // Since the variables are private, getter and setter methods are provided for external access
     public String getName() {
         return name;
     }
@@ -63,7 +58,7 @@ public class Book {
                 "Status: " + (isAvailable ? "Available" : "Not Available") + "\n" +
                 "Genre: " + genre + "\n" +
                 "Publish Year: " + publishYear + "\n" +
-                "----------------------";
+                "------------------------------";
     }
 
 }
