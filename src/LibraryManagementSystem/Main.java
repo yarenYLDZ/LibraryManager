@@ -8,7 +8,7 @@ public class Main {
     public static void main(String[] args) {
         LibraryManager library = new LibraryManager();
         Scanner scanner = new Scanner(System.in);
-        boolean exit = false;// Controls the main loop; remains false until the user chooses to exit
+        boolean exit = false; // Controls the main loop remains false until the user chooses to exit
 
         while (!exit) {
             System.out.println("\n--------*** LIBRARY MANAGER SYSTEM ***--------");

@@ -1,104 +1,108 @@
 package LibraryManagementSystem;
 
-import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
-
+import java.util.ArrayList;
+import java.util.Map;
 
 public class LibraryManager {
 
-    private final List<Book> books; // List to store all books in the library system
+    // Map to store books with ISBN as the unique key
+    private final Map<Integer, Book> books; // ISBN -> Book
 
-
-    public LibraryManager(){
-        // Initialize the list to hold books when the library manager is created
-        books = new ArrayList<>();
-
+    // Constructor initializes the book collection
+    public LibraryManager() {
+        books = new HashMap<>();
     }
 
-    // This method adds a new book to the library collection.
-    // This method checks if a book with the same ISBN already exists to avoid duplicates.
-    // If a duplicate is found, this method prints an error and does not add the book.
-    public void addBook(Book book){
-        // Check if a book with the same ISBN already exists
-        for (Book b : books) {
-            if (b.getIsbn() == book.getIsbn()) {
-                System.out.println("ERROR: A book with ISBN " + book.getIsbn() + " already exists in the library.");
-                return; // Exit without adding the duplicate book
-            }
+    /**
+     * Adds a new book to the library collection.
+     * Checks if a book with the same ISBN already exists to prevent duplicates.
+     * If the ISBN exists, it prints an error message and does not add the book.
+     * Otherwise, the book is added successfully.
+     */
+    public void addBook(Book book) {
+        if (books.containsKey(book.getIsbn())) {
+            System.out.println("ERROR: A book with ISBN " + book.getIsbn() + " already exists in the library.");
+            return;
         }
-        books.add(book);
+        books.put(book.getIsbn(), book);
         System.out.println("PROCESS RESULT: Book added successfully");
     }
 
-
-    // Method to display all books in the library
-    // If no books exist, it informs the user
-    // Otherwise, it prints detailed information of each book
-    public void listBooks(){
-        if(books.isEmpty()){
+    /**
+     * Lists all the books currently available in the library.
+     * If no books are present, it informs the user accordingly.
+     * Each book's details are printed using the overridden toString() method of Book.
+     */
+    public void listBooks() {
+        if (books.isEmpty()) {
             System.out.println("There are no books to list in the library.");
         } else {
             System.out.println("----BOOKS IN THE LIBRARY----");
-            for (Book book: books){
-                System.out.println("Title: " + book.getTitle());
-                System.out.println("Author: " + book.getAuthor());
-                System.out.println("ISBN: " + book.getIsbn());
-                System.out.println("Status: " + (book.isAvailable() ? "Available" : "Not Available"));
-                System.out.println("Genre: " + book.getGenre());
-                System.out.println("Publish Year: " + book.getPublishYear());
-                System.out.println("----------------------------");
+            for (Book book : books.values()) {
+                System.out.println(book);
             }
         }
     }
 
-
-    // Search for books containing the given title
-    // Returns a list of books that match the search query
-    public List<Book> searchBookByTitle(String title){
-        List<Book> foundBooks=new ArrayList<>();
-        for(Book book:books){
-            if(book.getTitle().toLowerCase().contains(title.toLowerCase())){
+    /**
+     * Searches for books whose titles contain the given search string.
+     * The search is case-insensitive.
+     * Returns a list of all matching books.
+     *
+     * @param title The search keyword for the book title.
+     * @return List of books matching the search criteria.
+     */
+    public List<Book> searchBookByTitle(String title) {
+        List<Book> foundBooks = new ArrayList<>();
+        for (Book book : books.values()) {
+            if (book.getTitle().toLowerCase().contains(title.toLowerCase())) {
                 foundBooks.add(book);
             }
-
         }
         return foundBooks;
     }
 
-
-    // Attempts to borrow a book by ISBN
-    // If found and available, marks as borrowed and prints success message
-    // Otherwise, informs if book is already borrowed or not found
+    /**
+     * Attempts to borrow a book identified by its ISBN.
+     * Checks if the book exists; if not, informs the user.
+     * If the book is already borrowed, informs the user it cannot be borrowed again.
+     * If the book is available, marks it as borrowed and confirms success.
+     *
+     * @param isbn The ISBN number of the book to borrow.
+     */
     public void borrowBook(int isbn) {
-        for (Book book : books) {
-            if (book.getIsbn() == isbn) {
-                if (book.borrow()) {
-                    System.out.println("Book borrowed. \n" + book);
-                } else {
-                    System.out.println("This book has already been borrowed. \n" + book);
-                }
-                return;
-            }
+        Book book = books.get(isbn);
+        if (book == null) {
+            System.out.println("No book found matching the ISBN number.\n");
+            return;
         }
-        System.out.println("No book found matching the ISBN number.\n");
+        if (book.borrow()) {
+            System.out.println("Book borrowed. \n" + book);
+        } else {
+            System.out.println("This book has already been borrowed. \n" + book);
+        }
     }
 
-
-    // Attempts to return a book by ISBN
-    // If found and currently borrowed, marks as available and prints success message
-    // Otherwise, informs if book is already returned or not found
+    /**
+     * Attempts to return a book identified by its ISBN.
+     * Checks if the book exists; if not, informs the user.
+     * If the book was not borrowed, informs the user it cannot be returned.
+     * If the book was borrowed, marks it as returned and confirms success.
+     *
+     * @param isbn The ISBN number of the book to return.
+     */
     public void returnBook(int isbn) {
-        for (Book book : books) {
-            if (book.getIsbn() == isbn) {
-                if (book.returnBook()) {
-                    System.out.println("Book returned\n" + book);
-                } else {
-                    System.out.println("This book has already been returned\n" + book);
-                }
-                return;
-            }
+        Book book = books.get(isbn);
+        if (book == null) {
+            System.out.println("No book found matching the ISBN number.");
+            return;
         }
-        System.out.println("No book found matching the ISBN number.");
+        if (book.returnBook()) {
+            System.out.println("Book returned\n" + book);
+        } else {
+            System.out.println("This book has already been returned\n" + book);
+        }
     }
-
 }
